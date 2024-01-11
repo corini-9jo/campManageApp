@@ -5,6 +5,7 @@ import camp.model.Student;
 import camp.model.Subject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class InquireStudent {
     private static List<Student> studentStore;
@@ -90,12 +91,14 @@ public class InquireStudent {
         }
     }
 
+    // 수강생 등록
     public void createStudent() {
         for (int i = 0; i < 4;i++) {
            studentStore.add(new Student(sequence(INDEX_TYPE_STUDENT), "test"));
         }
     }
 
+    // 수강생 목록 조회
     public void inquireStudentAll() {
         for (Student student: studentStore) {
             System.out.println("수강생 ID : " + student.getStudentId());
