@@ -1,14 +1,18 @@
 package camp.model;
 
+import java.util.List;
+import java.util.Map;
+
 public class Student {
     private String studentId;
     private String studentName;
-    private Subject subject;
+    private Map<String, List<String>> subject;
     private Score score;
 
-    public Student(String seq, String studentName) {
+    public Student(String seq, String studentName, Map<String, List<String>> subject) {
         this.studentId = seq;
         this.studentName = studentName;
+        this.subject = subject;
     }
 
     // Getter
@@ -18,10 +22,6 @@ public class Student {
 
     public String getStudentName() {
         return studentName;
-    }
-
-    public Subject getSubject() {
-        return subject;
     }
 
     public Score getScore() {
