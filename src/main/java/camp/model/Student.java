@@ -20,4 +20,11 @@ public class Student {
         return studentName;
     }
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public Score getScore() {
+        return score;
+    }
 }
