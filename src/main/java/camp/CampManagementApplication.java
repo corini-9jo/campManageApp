@@ -8,7 +8,7 @@ public class CampManagementApplication {
         inqureStudent.createStudent();
         inqureStudent.inquireStudentAll();
 
-        InquireScore inquireScore = new InquireScore();
-        inquireScore.updateRoundScoreBySubject();
+        ModifyScore modifyScore = new ModifyScore();
+        modifyScore.updateRoundScoreBySubject();
     }
 }

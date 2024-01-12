@@ -13,7 +13,6 @@ public class Score {
     private Score() {
     }
 
-
     public String getScoreId() {
         return scoreId;
     }
