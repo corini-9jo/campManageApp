@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+
 public class CreateScore {
     // 데이터 저장소
     private static List<Student> studentStore;
@@ -28,7 +29,7 @@ public class CreateScore {
     private static final String INDEX_TYPE_SCORE = "SC";
 
     // 스캐너
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public void setInitData() {
         subjectStore = List.of(
@@ -79,16 +80,16 @@ public class CreateScore {
                 )
         );
         studentStore = List.of(
-                new Student(sequence(INDEX_TYPE_STUDENT),
-                        "김철수"),
-                new Student(sequence(INDEX_TYPE_STUDENT),
-                        "신짱구"),
-                new Student(sequence(INDEX_TYPE_STUDENT),
-                        "이훈이"),
-                new Student(sequence(INDEX_TYPE_STUDENT),
-                        "최유리"),
-                new Student(sequence(INDEX_TYPE_STUDENT),
-                        "박맹구")
+//                new Student(sequence(INDEX_TYPE_STUDENT),
+//                        "김철수"),
+//                new Student(sequence(INDEX_TYPE_STUDENT),
+//                        "신짱구"),
+//                new Student(sequence(INDEX_TYPE_STUDENT),
+//                        "이훈이"),
+//                new Student(sequence(INDEX_TYPE_STUDENT),
+//                        "최유리"),
+//                new Student(sequence(INDEX_TYPE_STUDENT),
+//                        "박맹구")
         );
         ScoreStore = new ArrayList<>();
     }
@@ -109,7 +110,7 @@ public class CreateScore {
         }
     }
 
-    private  void displayMainView() throws InterruptedException {
+    public void displayMainView() throws InterruptedException {
         boolean flag = true;
         while (flag) {
             System.out.println("\n==================================");
@@ -180,6 +181,8 @@ public class CreateScore {
 
             switch (input) {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
+
+                case 3 -> inquireScore(); // 수강생 과목 회차별 등급 조회
                 case 4 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
@@ -191,7 +194,7 @@ public class CreateScore {
 
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static String getStudentId() {
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        System.out.print("\n수강생의 번호를 입력하시오...");
         return sc.next();
     }
 
@@ -305,5 +308,46 @@ public class CreateScore {
                 return "N";
             }
         }
+    }
+
+    private void inquireScore(){
+        String studentId = getStudentId(); // 조회할 수강생 고유 번호
+        String subjectId = getSubjectId(); // 조회할 과목 고유 번호
+
+        // 수강생 및 과목 고유 번호에 맞는 점수 탐색
+        List<Score> scoreList = ScoreStore.stream()
+                .filter(s -> s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId))
+                .toList();
+
+
+        // 탐색 후 결과가 없을 시 리턴
+        if(scoreList.isEmpty()) {
+            System.out.println("해당 시험 결과가 없습니다");
+
+            return;
+        }
+
+        // 점수 출력
+        System.out.println("학생 ID : " + studentId);
+        System.out.println("과목 ID : " + subjectId);
+        for (int i = 0; i < 10; i++) {
+            System.out.print(i + 1 + "회차\t| ");
+        }
+        System.out.println();
+        for (int i = 0; i < 10; i++) {
+            int finalI = i;
+            // round 순서대로 정렬
+            Score roundScore = scoreList.stream()
+                    .filter(score -> score.getRound() == (finalI + 1))
+                    .findFirst()
+                    .orElse(null);
+            // 등급 출력, null 일시 - 출력
+            if (roundScore != null) {
+                System.out.print(roundScore.getGrade() + " 등급\t| ");
+            } else {
+                System.out.print("- 등급\t| ");
+            }
+        }
+        System.out.println();
     }
 }
