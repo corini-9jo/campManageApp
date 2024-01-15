@@ -1,18 +1,17 @@
 package camp;
 
+import java.util.Scanner;
+
 public class CampManagementApplication {
-
     public static void main(String[] args) throws InterruptedException {
-//        StudentManagement inqureStudent = new StudentManagement();
-//        inqureStudent.setInitData();
-//        inqureStudent.createStudent();
-//        inqureStudent.inquireStudentAll();
-//
-//        ModifyScore modifyScore = new ModifyScore();
-//        modifyScore.updateRoundScoreBySubject();
-
-        CreateScore createScore = new CreateScore();
-        createScore.setInitData();
-        createScore.displayMainView();
+        InitializeData initializeData = new InitializeData();
+        StudentManagement studentManagement = new StudentManagement(initializeData);
+        ScoreManagement scoreManagement = new ScoreManagement(initializeData);
+        ApplicationView applicationView = new ApplicationView(studentManagement, scoreManagement);
+        applicationView.displayMainView();
     }
+
+
+
+
 }
