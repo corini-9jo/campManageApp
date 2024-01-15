@@ -1,10 +1,10 @@
 package camp;
 
-import camp.model.Score;
+import static camp.InitializeData.sequence;
+
 import camp.model.Student;
 import camp.model.Subject;
-import java.util.ArrayList;
-import java.util.Arrays;
+import camp.utils.TypeConsts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,89 +12,14 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class StudentManagement {
-    private static List<Student> studentStore;
-    private static List<Subject> subjectStore;
-    private static List<Score> ScoreStore;
-
-    private static String SUBJECT_TYPE_MANDATORY = "MANDATORY";
-    private static String SUBJECT_TYPE_CHOICE = "CHOICE";
-
-    private static int studentIndex;
-    private static final String INDEX_TYPE_STUDENT = "ST";
-    private static int subjectIndex;
-    private static final String INDEX_TYPE_SUBJECT = "SU";
-    private static int scoreIndex;
-    private static final String INDEX_TYPE_SCORE = "SC";
+    private InitializeData initializeData;
+    private List<Student> studentStore = initializeData.getStudentStore();
+    private List<Subject> subjectStore = initializeData.getSubjectStore();
 
     Scanner sc = new Scanner(System.in);
-    public void setInitData() {
-        studentStore = new ArrayList<>();
-        subjectStore = List.of(
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Java",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "객체지향",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "JPA",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MySQL",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Redis",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MongoDB",
-                        SUBJECT_TYPE_CHOICE
-                )
-        );
-        ScoreStore = new ArrayList<>();
-    }
 
-    // index 자동 증가
-    private static String sequence(String type) {
-        switch (type) {
-            case INDEX_TYPE_STUDENT -> {
-                studentIndex++;
-                return INDEX_TYPE_STUDENT + studentIndex;
-            }
-            case INDEX_TYPE_SUBJECT -> {
-                subjectIndex++;
-                return INDEX_TYPE_SUBJECT + subjectIndex;
-            }
-            default -> {
-                scoreIndex++;
-                return INDEX_TYPE_SCORE + scoreIndex;
-            }
-        }
+    public StudentManagement(InitializeData initializeData) {
+        this.initializeData = initializeData;
     }
 
     public void createStudent() {
@@ -109,10 +34,10 @@ public class StudentManagement {
                 List<String> choiceList = selectChoiceSubject();
 
                 Map<String, List<String>> subjectList = new HashMap<>();
-                subjectList.put(SUBJECT_TYPE_MANDATORY, mandatoryList);
-                subjectList.put(SUBJECT_TYPE_CHOICE, choiceList);
+                subjectList.put(TypeConsts.SUBJECT_TYPE_MANDATORY.getType(), mandatoryList);
+                subjectList.put(TypeConsts.SUBJECT_TYPE_CHOICE.getType(), choiceList);
 
-                Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, subjectList);
+                Student student = new Student(sequence(TypeConsts.INDEX_TYPE_STUDENT), studentName, subjectList);
                 studentStore.add(student);
 
                 System.out.println("\n수강생 등록 성공!\n");
@@ -126,7 +51,7 @@ public class StudentManagement {
 
     public void inquireStudentAll() {
         for (Student student : studentStore) {
-            System.out.println("수강생 ID : " + student.getStudentId());
+            System.out.println("\n수강생 ID : " + student.getStudentId());
             System.out.println("수강생 이름 : " + student.getStudentName());
         }
     }
@@ -135,10 +60,9 @@ public class StudentManagement {
         System.out.println("아래의 필수과목 중 3개 이상을 선택해주세요.(쉼표롤 구분)");
 
         String mandatory = subjectStore.stream()
-                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY))
+                .filter(subject -> subject.getSubjectType().equals(TypeConsts.SUBJECT_TYPE_MANDATORY.getType()))
                 .map(Subject::getSubjectName)
                 .collect(Collectors.joining(", "));
-
         System.out.println("[ " + mandatory + " ]");
         System.out.print("\n필수과목 선택: ");
         String mandatoryInput = sc.nextLine();
@@ -150,9 +74,8 @@ public class StudentManagement {
 
     private List<String> selectChoiceSubject() {
         System.out.println("\n아래의 선택과목 중 2개 이상을 선택해주세요.(쉼표롤 구분)");
-
         String choice = subjectStore.stream()
-                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE))
+                .filter(subject -> subject.getSubjectType().equals(TypeConsts.SUBJECT_TYPE_CHOICE.getType()))
                 .map(Subject::getSubjectName)
                 .collect(Collectors.joining(", "));
 
