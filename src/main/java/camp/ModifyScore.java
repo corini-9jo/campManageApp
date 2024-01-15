@@ -25,7 +25,7 @@ public class ModifyScore {
         String subjectId = sc.next();  // 수정할 과목
 
         // 수정할 회차 입력
-        System.out.println("수정할 과목 입력 : ");
+        System.out.println("수정할 회차 입력 : ");
         int fix_round = sc.nextInt();  // 수정할 회차
         sc.nextLine();
         
@@ -40,7 +40,7 @@ public class ModifyScore {
             // 수강생 고유 번호 & 과목 존재 여부 & 수정할 회차 확인
             if(s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getRound() == fix_round){
                 // 수정할 점수 입력
-                System.out.println("수정할 과목 입력 : ");
+                System.out.println("수정할 점수 입력 : ");
                 int fix_score = sc.nextInt();  // 수정할 점수
                 sc.nextLine();
 
