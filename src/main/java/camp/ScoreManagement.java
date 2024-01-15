@@ -182,21 +182,17 @@ public class ScoreManagement {
     }
 
     public void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-
-        // 수정할 과목 입력
-        System.out.println("수정할 과목 입력 : ");
-        String subjectId = sc.next();  // 수정할 과목
+        String studentId = getStudentId(); // 조회할 수강생 고유 번호
+        String subjectId = getSubjectId(); // 조회할 과목 고유 번호
 
         // 수정할 회차 입력
-        System.out.println("수정할 과목 입력 : ");
+        System.out.print("\n수정할 회차 => ");
         int fix_round = sc.nextInt();  // 수정할 회차
         sc.nextLine();
 
         // 입력된 회차 범위 확인
         if(!(1 <= fix_round && fix_round <= 10)){
-            System.out.println("잘못된 입력 범위입니다.");
-            return;
+            System.out.print("잘못된 입력 범위입니다.");
         }
 
         // 수정할 과목 및 회차 정보가 존재하는지 확인
@@ -204,22 +200,52 @@ public class ScoreManagement {
             // 수강생 고유 번호 & 과목 존재 여부 & 수정할 회차 확인
             if(s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getRound() == fix_round){
                 // 수정할 점수 입력
-                System.out.println("수정할 과목 입력 : ");
+                System.out.print("수정할 점수 => ");
                 int fix_score = sc.nextInt();  // 수정할 점수
                 sc.nextLine();
 
                 // 입력된 점수 범위 확인
                 if(!(0 <= fix_score && fix_score <= 100)){
-                    System.out.println("잘못된 입력 범위입니다.");
-                    return;
+                    System.out.print("잘못된 입력 범위입니다.");
                 }
 
                 // 정보 수정
                 s.setScore(fix_score);
 
+                int n = fix_score / 10;
+                switch (n) {
+                    case 10, 9 -> {
+                        s.setGrade("A");
+                        break;
+                    }
+                    case 8 -> {
+                        s.setGrade("B");
+                        break;
+                    }
+                    case 7 -> {
+                        s.setGrade("C");
+                        break;
+                    }
+                    case 6 -> {
+                        s.setGrade("D");
+                        break;
+                    }
+                    case 5 -> {
+                        s.setGrade("F");
+                        break;
+                    }
+                    default -> {
+                        s.setGrade("N");
+                        break;
+                    }
+                }
+
+
                 // 종료
-                System.out.println("시험 점수를 수정합니다...");
-                return;
+                System.out.println("시험 점수가 수정되었습니다.");
+            }
+            else{
+                System.out.println("입력한 정보에 맞는 데이터가 없습니다.");
             }
         }
     }
