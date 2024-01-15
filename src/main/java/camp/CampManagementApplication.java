@@ -10,8 +10,4 @@ public class CampManagementApplication {
         ApplicationView applicationView = new ApplicationView(studentManagement, scoreManagement);
         applicationView.displayMainView();
     }
-
-
-
-
 }

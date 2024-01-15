@@ -6,7 +6,6 @@ import camp.model.Subject;
 import camp.utils.TypeConsts;
 import java.util.ArrayList;
 import java.util.List;
-// ST SU SC
 
 public class InitializeData {
     private static List<Student> studentStore;
