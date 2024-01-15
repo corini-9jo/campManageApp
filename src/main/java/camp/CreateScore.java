@@ -158,7 +158,7 @@ public class CreateScore {
     }
 
     public static void createStudent(){
-
+        
     }
     // 수강생 목록 조회
     private static void inquireStudent() {
