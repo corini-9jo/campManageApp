@@ -61,6 +61,7 @@ public class ScoreManagement {
         String grade = createGrade(score,findSubject.get().getSubjectType());
 
         Optional<Score> findScore = findScoreByIdWithRound(studentId,subjectId,round);
+
         if(findScore.isPresent()){
             System.out.println("이미 존재하는 회차입니다.");
             return;
@@ -185,6 +186,18 @@ public class ScoreManagement {
         String studentId = getStudentId(); // 조회할 수강생 고유 번호
         String subjectId = getSubjectId(); // 조회할 과목 고유 번호
 
+        Optional<Student> findStudent = findStudentById(studentId);
+        if(!findStudent.isPresent()){
+            System.out.println("존재 하지 않은 학생입니다.");
+            return;
+        }
+
+        Optional<Subject> findSubject = findSubjectById(subjectId);
+        if(!findSubject.isPresent()){
+            System.out.println("존재 하지 않은 과목입니다.");
+            return;
+        }
+
         // 수정할 회차 입력
         System.out.print("\n수정할 회차 => ");
         int fix_round = sc.nextInt();  // 수정할 회차
@@ -209,37 +222,12 @@ public class ScoreManagement {
                     System.out.print("잘못된 입력 범위입니다.");
                 }
 
-                // 정보 수정
+                // 점수 수정
                 s.setScore(fix_score);
 
-                int n = fix_score / 10;
-                switch (n) {
-                    case 10, 9 -> {
-                        s.setGrade("A");
-                        break;
-                    }
-                    case 8 -> {
-                        s.setGrade("B");
-                        break;
-                    }
-                    case 7 -> {
-                        s.setGrade("C");
-                        break;
-                    }
-                    case 6 -> {
-                        s.setGrade("D");
-                        break;
-                    }
-                    case 5 -> {
-                        s.setGrade("F");
-                        break;
-                    }
-                    default -> {
-                        s.setGrade("N");
-                        break;
-                    }
-                }
-
+                // 성적 수정
+                String subjectType = findSubject.get().getSubjectType();
+                s.setGrade(createGrade(fix_score, subjectType));
 
                 // 종료
                 System.out.println("시험 점수가 수정되었습니다.");
