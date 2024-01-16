@@ -101,7 +101,7 @@ public class ScoreManagement {
     }
 
     private String createGrade(int score, String subjectType) {
-        if (subjectType.equals("필수"))
+        if (subjectType.equals(TypeConsts.SUBJECT_TYPE_MANDATORY.getType()))
             return createRequiredGrade(score);
         else
             return createElectiveGrade(score);
@@ -201,7 +201,7 @@ public class ScoreManagement {
         // 수정할 회차 입력
         System.out.print("\n수정할 회차 => ");
         int fix_round = sc.nextInt();  // 수정할 회차
-        sc.nextLine();
+//        sc.nextLine();
 
         // 입력된 회차 범위 확인
         if(!(1 <= fix_round && fix_round <= 10)){
@@ -215,7 +215,6 @@ public class ScoreManagement {
                 // 수정할 점수 입력
                 System.out.print("수정할 점수 => ");
                 int fix_score = sc.nextInt();  // 수정할 점수
-                sc.nextLine();
 
                 // 입력된 점수 범위 확인
                 if(!(0 <= fix_score && fix_score <= 100)){
